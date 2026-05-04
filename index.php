@@ -11,10 +11,10 @@
         <p>Simple database project for managing lost and found items.</p>
 
         <div class="menu">
-            <a href="#">Users</a>
-            <a href="#">Items</a>
-            <a href="#">Reports</a>
-            <a href="#">Claims</a>
+    <a href="users.php">Users</a>
+    <a href="items.php">Items</a>
+    <a href="reports.php">Reports</a>
+    <a href="claims.php">Claims</a>
         </div>
     </div>
 
