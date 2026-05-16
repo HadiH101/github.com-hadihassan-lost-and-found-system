@@ -1,7 +1,8 @@
 <?php
+include "admin_check.php";
 include "db.php";
 
-$sql = "SELECT * FROM User";
+$sql = "SELECT * FROM `User`";
 $result = mysqli_query($conn, $sql);
 ?>
 

@@ -1,4 +1,5 @@
 <?php
+include "admin_check.php";
 include "db.php";
 
 $msg = "";

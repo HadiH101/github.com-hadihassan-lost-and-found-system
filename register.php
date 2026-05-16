@@ -1,37 +1,38 @@
 <?php
-include "admin_check.php";
 include "db.php";
 
 $msg = "";
 
 if(isset($_POST['submit'])){
-
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO User (name, email, phone)
-            VALUES ('$name', '$email', '$phone')";
+    $sql = "INSERT INTO `User` (name, email, phone, password, role)
+            VALUES ('$name', '$email', '$phone', '$password', 'user')";
 
     if(mysqli_query($conn, $sql)){
-        header("Location: users.php");
+        header("Location: login.php");
+        exit();
     } else {
-        echo "Error: " . mysqli_error($conn);
+        $msg = "Error: " . mysqli_error($conn);
     }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add User - Lost and Found System</title>
+    <title>Register</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="main-box">
-    <h1>Add User</h1>
+    <h1>Register</h1>
+
+    <?php if($msg != "") echo "<p style='color:red;'>$msg</p>"; ?>
 
     <form method="POST">
         <label>Name</label><br>
@@ -43,11 +44,14 @@ if(isset($_POST['submit'])){
         <label>Phone</label><br>
         <input type="text" name="phone" required><br><br>
 
-        <button type="submit" name="submit">Add User</button>
+        <label>Password</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit" name="submit">Register</button>
     </form>
 
     <br>
-    <a href="users.php">View Users</a>
+    <a href="login.php">Login</a>
 </div>
 
 </body>
