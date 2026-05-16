@@ -17,7 +17,7 @@ $result = mysqli_query($conn, $sql);
     <h1>Users</h1>
 
     <a href="index.php">Home</a>
-    <a href="add_user.php">Add User</a>
+    <a href="add_users.php">Add User</a>
 
     <br><br>
 
