@@ -15,6 +15,7 @@
     <a href="items.php">Items</a>
     <a href="reports.php">Reports</a>
     <a href="claims.php">Claims</a>
+    <a href="categories.php">Categories</a>
         </div>
     </div>
 
