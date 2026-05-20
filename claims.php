@@ -3,6 +3,12 @@
 include "auth_check.php";
 include "db.php";
 
+$isAdmin = false;
+
+if($_SESSION['role'] == "admin"){
+    $isAdmin = true;
+}
+
 $query = "
 
     SELECT
@@ -41,8 +47,10 @@ $result = mysqli_query($conn, $query);
     <h1>Claims</h1>
 
     <div class="menu-links">
+
         <a href="index.php">Home</a>
         <a href="add_claim.php">Submit Claim</a>
+
     </div>
 
     <br><br>
@@ -56,6 +64,19 @@ $result = mysqli_query($conn, $query);
             <th>Item</th>
             <th>Status</th>
             <th>Date</th>
+
+            <?php
+
+            if($isAdmin){
+
+                ?>
+
+                <th>Action</th>
+
+                <?php
+            }
+
+            ?>
 
         </tr>
 
@@ -89,6 +110,46 @@ $result = mysqli_query($conn, $query);
                         <?php echo $row['claim_date']; ?>
                     </td>
 
+                    <?php
+
+                    if($isAdmin){
+
+                        ?>
+
+                        <td>
+
+                            <?php
+
+                            if($row['claim_status'] == "Pending"){
+
+                                ?>
+
+                                <a href="approve_claim.php?id=<?php echo $row['claim_id']; ?>">
+                                    Approve
+                                </a>
+
+                                |
+
+                                <a href="reject_claim.php?id=<?php echo $row['claim_id']; ?>">
+                                    Reject
+                                </a>
+
+                                <?php
+
+                            } else {
+
+                                echo "-";
+                            }
+
+                            ?>
+
+                        </td>
+
+                        <?php
+                    }
+
+                    ?>
+
                 </tr>
 
                 <?php
@@ -100,7 +161,7 @@ $result = mysqli_query($conn, $query);
 
             <tr>
 
-                <td colspan="5">
+                <td colspan="6">
                     no claims submitted
                 </td>
 
