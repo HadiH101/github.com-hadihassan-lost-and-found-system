@@ -103,7 +103,27 @@ $result = mysqli_query($conn, $query);
                     </td>
 
                     <td>
-                        <?php echo $row['claim_status']; ?>
+                        <?php
+
+                        $status = $row['claim_status'];
+
+                        $class = "";
+
+                        if($status == "Approved"){
+                            $class = "status-approved";
+                        }
+                        else if($status == "Rejected"){
+                            $class = "status-rejected";
+                        }
+                        else{
+                        $class = "status-pending";
+                        }
+
+                    ?>
+
+                    <span class="<?php echo $class; ?>">
+                    <?php echo $status; ?>
+                    </span>
                     </td>
 
                     <td>
@@ -175,6 +195,14 @@ $result = mysqli_query($conn, $query);
     </table>
 
 </div>
+
+<br><br>
+
+<center>
+    <p>
+        Lost and Found System
+    </p>
+</center>
 
 </body>
 </html>

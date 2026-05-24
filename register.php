@@ -54,5 +54,13 @@ if(isset($_POST['submit'])){
     <a href="login.php">Login</a>
 </div>
 
+<br><br>
+
+<center>
+    <p>
+        Lost and Found System
+    </p>
+</center>
+
 </body>
 </html>

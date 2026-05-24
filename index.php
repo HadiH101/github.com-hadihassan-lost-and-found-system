@@ -14,11 +14,44 @@ session_start();
     <h1>Lost and Found System</h1>
 
     <?php if(isset($_SESSION['user_id'])){ ?>
-        <p>Welcome, <?php echo $_SESSION['name']; ?></p>
-        <p>Role: <?php echo $_SESSION['role']; ?></p>
-    <?php } else { ?>
-        <p>Please login or register to use the system.</p>
-    <?php } ?>
+
+            <p>
+                Welcome back,
+            <strong>
+            <?php echo $_SESSION['name']; ?>
+                </strong>
+            </p>
+
+            <?php } else { ?>
+
+            <p>
+                Please login or register first.
+            </p>
+
+        <?php } ?>
+
+
+        <?php
+
+        include "db.php";
+
+        $countQuery = "SELECT COUNT(*) AS total_items FROM Item";
+
+        $countResult = mysqli_query($conn, $countQuery);
+
+        $totalItems = mysqli_fetch_assoc($countResult);
+
+        ?>
+
+        <p>
+
+        Total Items:
+
+        <strong>
+           <?php echo $totalItems['total_items']; ?>
+      </strong>
+
+        </p>
 
     <div class="menu">
         <?php if(!isset($_SESSION['user_id'])){ ?>
@@ -39,6 +72,14 @@ session_start();
         <?php } ?>
     </div>
 </div>
+
+<br><br>
+
+<center>
+    <p>
+        Lost and Found System
+    </p>
+</center>
 
 </body>
 </html>
