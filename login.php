@@ -8,11 +8,24 @@ if(isset($_POST['submit'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM `User` WHERE email='$email'";
-    $result = mysqli_query($conn, $sql);
+    $stmt = mysqli_prepare(
+    $conn,
+    "SELECT * FROM User WHERE email = ?"
+);
 
-    if(mysqli_num_rows($result) == 1){
-        $row = mysqli_fetch_assoc($result);
+mysqli_stmt_bind_param(
+    $stmt,
+    "s",
+    $email
+);
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+
+if(mysqli_num_rows($result) == 1){
+
+    $row = mysqli_fetch_assoc($result);
 
         if(password_verify($password, $row['password'])){
             $_SESSION['user_id'] = $row['user_id'];
@@ -56,6 +69,14 @@ if(isset($_POST['submit'])){
     <br>
     <a href="register.php">Create Account</a>
 </div>
+
+<br><br>
+
+<center>
+    <p>
+        Lost and Found System
+    </p>
+</center>
 
 </body>
 </html>

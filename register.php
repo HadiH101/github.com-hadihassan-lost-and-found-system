@@ -9,10 +9,40 @@ if(isset($_POST['submit'])){
     $phone = $_POST['phone'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO `User` (name, email, phone, password, role)
-            VALUES ('$name', '$email', '$phone', '$password', 'user')";
+    $query = "
 
-    if(mysqli_query($conn, $sql)){
+    INSERT INTO User
+    (
+        name,
+        email,
+        phone,
+        password,
+        role
+    )
+
+    VALUES
+    (
+        ?,
+        ?,
+        ?,
+        ?,
+        'user'
+    )
+
+";
+
+$stmt = mysqli_prepare($conn, $query);
+
+mysqli_stmt_bind_param(
+    $stmt,
+    "ssss",
+    $name,
+    $email,
+    $phone,
+    $password
+);
+
+if(mysqli_stmt_execute($stmt)){
         header("Location: login.php");
         exit();
     } else {
