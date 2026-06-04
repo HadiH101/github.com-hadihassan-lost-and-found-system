@@ -5,8 +5,7 @@ include "db.php";
 $msg = "";
 
 if(isset($_POST['submit'])){
-
-    $category_name = $_POST['category_name'];
+    $category_name = mysqli_real_escape_string($conn, $_POST['category_name']);
 
     $sql = "INSERT INTO Category (category_name)
             VALUES ('$category_name')";
@@ -18,7 +17,6 @@ if(isset($_POST['submit'])){
         $msg = "Error: " . mysqli_error($conn);
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -32,11 +30,17 @@ if(isset($_POST['submit'])){
 <div class="main-box">
     <h1>Add Category</h1>
 
-    <?php
-    if($msg != ""){
-        echo "<p style='color:red;'>$msg</p>";
-    }
-    ?>
+    <?php if($msg != ""){ ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($msg); ?>
+        </div>
+    <?php } ?>
+
+    <div class="menu-links">
+        <a href="categories.php">Back to Categories</a>
+    </div>
+
+    <br>
 
     <form method="POST">
         <label>Category Name</label><br>
@@ -44,12 +48,13 @@ if(isset($_POST['submit'])){
 
         <button type="submit" name="submit">Add Category</button>
     </form>
-
-    <br>
-    <a href="categories.php">View Categories</a>
-    <br><br>
-    <a href="index.php">Home</a>
 </div>
+
+<br><br>
+
+<center>
+    <p>Lost and Found System</p>
+</center>
 
 </body>
 </html>

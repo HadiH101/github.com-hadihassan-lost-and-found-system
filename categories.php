@@ -17,15 +17,21 @@ $result = mysqli_query($conn, $sql);
 <div class="main-box">
     <h1>Categories</h1>
 
-    <a href="index.php">Home</a>
-    <a href="add_category.php">Add Category</a>
+    <div class="menu-links">
+        <a href="index.php">Home</a>
+        <a href="add_category.php">Add Category</a>
+        <a href="items.php">Items</a>
+        <a href="claims.php">All Claims</a>
+        <a href="users.php">Users</a>
+    </div>
 
-    <br><br>
+    <br>
 
     <table border="1" cellpadding="10" cellspacing="0" width="100%">
         <tr>
             <th>Category ID</th>
             <th>Category Name</th>
+            <th>Action</th>
         </tr>
 
         <?php
@@ -33,15 +39,22 @@ $result = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_assoc($result)){
                 echo "<tr>";
                 echo "<td>".$row['category_id']."</td>";
-                echo "<td>".$row['category_name']."</td>";
+                echo "<td><strong>".htmlspecialchars($row['category_name'])."</strong></td>";
+                echo "<td><a href='delete_category.php?id=".$row['category_id']."' onclick=\"return confirm('Are you sure you want to delete this category?');\" style='color: var(--danger-red); font-weight: bold; text-decoration: none;'>Delete</a></td>";
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='2'>No categories found</td></tr>";
+            echo "<tr><td colspan='3' align='center'>No categories found</td></tr>";
         }
         ?>
     </table>
 </div>
+
+<br><br>
+
+<center>
+    <p>Lost and Found System</p>
+</center>
 
 </body>
 </html>

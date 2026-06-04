@@ -9,23 +9,21 @@ if(isset($_POST['submit'])){
     $password = $_POST['password'];
 
     $stmt = mysqli_prepare(
-    $conn,
-    "SELECT * FROM User WHERE email = ?"
-);
+        $conn,
+        "SELECT * FROM User WHERE email = ?"
+    );
 
-mysqli_stmt_bind_param(
-    $stmt,
-    "s",
-    $email
-);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "s",
+        $email
+    );
 
-mysqli_stmt_execute($stmt);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-$result = mysqli_stmt_get_result($stmt);
-
-if(mysqli_num_rows($result) == 1){
-
-    $row = mysqli_fetch_assoc($result);
+    if(mysqli_num_rows($result) == 1){
+        $row = mysqli_fetch_assoc($result);
 
         if(password_verify($password, $row['password'])){
             $_SESSION['user_id'] = $row['user_id'];
@@ -54,7 +52,11 @@ if(mysqli_num_rows($result) == 1){
 <div class="main-box">
     <h1>Login</h1>
 
-    <?php if($msg != "") echo "<p style='color:red;'>$msg</p>"; ?>
+    <?php if($msg != ""){ ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($msg); ?>
+        </div>
+    <?php } ?>
 
     <form method="POST">
         <label>Email</label><br>
@@ -67,15 +69,13 @@ if(mysqli_num_rows($result) == 1){
     </form>
 
     <br>
-    <a href="register.php">Create Account</a>
+    <a href="register.php" class="btn-link">Create Account</a>
 </div>
 
 <br><br>
 
 <center>
-    <p>
-        Lost and Found System
-    </p>
+    <p>Lost and Found System</p>
 </center>
 
 </body>

@@ -10,39 +10,35 @@ if(isset($_POST['submit'])){
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $query = "
+        INSERT INTO User
+        (
+            name,
+            email,
+            phone,
+            password,
+            role
+        )
+        VALUES
+        (
+            ?,
+            ?,
+            ?,
+            ?,
+            'user'
+        )
+    ";
 
-    INSERT INTO User
-    (
-        name,
-        email,
-        phone,
-        password,
-        role
-    )
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssss",
+        $name,
+        $email,
+        $phone,
+        $password
+    );
 
-    VALUES
-    (
-        ?,
-        ?,
-        ?,
-        ?,
-        'user'
-    )
-
-";
-
-$stmt = mysqli_prepare($conn, $query);
-
-mysqli_stmt_bind_param(
-    $stmt,
-    "ssss",
-    $name,
-    $email,
-    $phone,
-    $password
-);
-
-if(mysqli_stmt_execute($stmt)){
+    if(mysqli_stmt_execute($stmt)){
         header("Location: login.php");
         exit();
     } else {
@@ -62,7 +58,11 @@ if(mysqli_stmt_execute($stmt)){
 <div class="main-box">
     <h1>Register</h1>
 
-    <?php if($msg != "") echo "<p style='color:red;'>$msg</p>"; ?>
+    <?php if($msg != ""){ ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($msg); ?>
+        </div>
+    <?php } ?>
 
     <form method="POST">
         <label>Name</label><br>
@@ -81,15 +81,13 @@ if(mysqli_stmt_execute($stmt)){
     </form>
 
     <br>
-    <a href="login.php">Login</a>
+    <a href="login.php" class="btn-link">Login</a>
 </div>
 
 <br><br>
 
 <center>
-    <p>
-        Lost and Found System
-    </p>
+    <p>Lost and Found System</p>
 </center>
 
 </body>
