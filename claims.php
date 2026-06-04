@@ -68,10 +68,8 @@ $result = mysqli_query($conn, $query);
             <th>Claim Status</th>
             <th>Item Status</th>
             <th>Date</th>
-            <th>Rejection Reason</th>
-            <?php if($isAdmin){ ?>
-                <th>Action</th>
-            <?php } ?>
+            <th>Proof Description</th>
+            <th>Proof Image</th>
         </tr>
 
         <?php
@@ -110,13 +108,14 @@ $result = mysqli_query($conn, $query);
                     </td>
                     <td><?php echo $row['claim_date']; ?></td>
                     <td>
-                        <?php
-                        if ($status == "Rejected" && !empty($row['rejection_reason'])) {
-                            echo '<span style="color: var(--danger-red); font-style: italic;">' . htmlspecialchars($row['rejection_reason']) . '</span>';
-                        } else {
-                            echo "-";
-                        }
-                        ?>
+                        <?php echo $row['proof_description'] ? htmlspecialchars($row['proof_description']) : '-'; ?>
+                    </td>
+                    <td>
+                        <?php if (!empty($row['proof_image'])) { ?>
+                            <a href="<?php echo htmlspecialchars($row['proof_image']); ?>" target="_blank">View Image</a>
+                        <?php } else { ?>
+                            -
+                        <?php } ?>
                     </td>
 
                     <?php if($isAdmin){ ?>
@@ -140,7 +139,7 @@ $result = mysqli_query($conn, $query);
         } else {
             ?>
             <tr>
-                <td colspan="8" align="center">No claims submitted</td>
+                <td colspan="9" align="center">No claims submitted</td>
             </tr>
             <?php
         }

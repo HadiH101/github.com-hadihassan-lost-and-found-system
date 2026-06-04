@@ -35,6 +35,8 @@ CREATE TABLE Claim (
     status VARCHAR(20) DEFAULT 'Pending',
     claim_status VARCHAR(50) DEFAULT 'Pending',
     rejection_reason VARCHAR(255) NULL,
+    proof_description TEXT NULL,
+    proof_image VARCHAR(255) NULL,
     verified_by INT,
     FOREIGN KEY (user_id) REFERENCES User(user_id),
     FOREIGN KEY (item_id) REFERENCES Item(item_id),
