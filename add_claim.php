@@ -26,9 +26,7 @@ if(isset($_POST['submit'])){
                 user_id,
                 item_id,
                 claim_status,
-                claim_date,
-                proof_description,
-                proof_image
+                claim_date, proof_description
             )
             VALUES
             (
@@ -36,31 +34,12 @@ if(isset($_POST['submit'])){
                 '$item',
                 'Pending',
                 '$date',
-                '$proofDesc',
-                ?
+                '$proofDesc'
             )
         ";
 
-        // Handle file upload if provided
-        if (isset($_FILES['proof_image']) && $_FILES['proof_image']['error'] === UPLOAD_ERR_OK) {
-            $tmpName = $_FILES['proof_image']['tmp_name'];
-            $origName = basename($_FILES['proof_image']['name']);
-            $ext = pathinfo($origName, PATHINFO_EXTENSION);
-            $newName = uniqid('proof_') . '.' . $ext;
-            $destDir = __DIR__ . '/uploads/';
-            if (!is_dir($destDir)) {
-                mkdir($destDir, 0755, true);
-            }
-            $destPath = $destDir . $newName;
-            if (move_uploaded_file($tmpName, $destPath)) {
-                $proofImagePath = 'uploads/' . $newName;
-            } else {
-                $msg = "Failed to upload proof image.";
-            }
-        }
-        // Replace placeholder ? with escaped path or NULL
-        $finalQuery = str_replace("?", $proofImagePath ? "'" . mysqli_real_escape_string($conn, $proofImagePath) . "'" : "NULL", $query);
-        $run = mysqli_query($conn, $finalQuery);
+// No image handling needed
+        $run = mysqli_query($conn, $query);
 
         if($run){
             // Update the item status to 'Claim Pending'
@@ -135,25 +114,15 @@ $itemResult = mysqli_query($conn, $getItems);
 
         <label>Claim Date</label>
         <br>
-        <input
-            type="date"
-            name="claim_date"
-            value="<?php echo date('Y-m-d'); ?>"
-            required
-        >
+        <input type="date" name="claim_date" value="<?php echo date('Y-m-d'); ?>" required>
         <br><br>
-
         <label>Proof Description</label>
-            <br>
-            <textarea name="proof_description" rows="4" cols="50" placeholder="Enter description to support your claim"></textarea>
-            <br><br>
-            <label>Proof Image (optional)</label>
-            <br>
-            <input type="file" name="proof_image" accept="image/*">
-            <br><br>
-            <button type="submit" name="submit">
-                Submit Claim
-            </button>
+        <br>
+        <textarea name="proof_description" rows="4" cols="50" placeholder="Enter description to support your claim"></textarea>
+        <br><br>
+        <button type="submit" name="submit">
+            Submit Claim
+        </button>
     </form>
 </div>
 
